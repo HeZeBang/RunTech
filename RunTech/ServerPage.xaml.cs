@@ -66,6 +66,9 @@ public partial class ServerPage : ContentPage
             }
         });
         server.Start();
+        this.Disappearing += (sender, e) => {
+            server.Dispose();
+        };
     }
 
     [Route(HttpVerbs.Get, "/ping")]
