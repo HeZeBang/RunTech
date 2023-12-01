@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+             x:Name="clientPage"
+             x:Class="RunTech.ClientPage">
+    <ScrollView>
+    <VerticalStackLayout>
+        <Label 
+            Text="少女折寿中……" FontSize="Title"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Label FontSize="Subtitle" Text="输入IP地址，并点击搜索按钮开始实时更新"/>
+        <SearchBar x:Name="IPBar" Text="IP Address" SearchButtonPressed="GetButton_Clicked"/>
+        <!--" Button x:Name="GetButton" Text="GET!" Clicked="GetButton_Clicked"/-->
+            <ProgressBar x:Name="progstate" BindingContext="{x:Reference clientPage}" Progress="{Binding progress}"/>
+            <cv:BarcodeImage Grid.Row="0" x:Name="barcodeImage" Aspect="AspectFit"
+                                         BindingContext="{x:Reference clientPage}" Barcode="{Binding response}"
+                     WidthRequest="200" HeightRequest="200" 
+                     BarcodeWidth="150" BarcodeHeight="150" BarcodeMargin="5"
+                     BarcodeBackground="White" BarcodeForeground="Black"
+                     BarcodeFormat="QR_CODE" />
+
+            <Label Margin="10" BindingContext="{x:Reference clientPage}" Text="{Binding response}" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

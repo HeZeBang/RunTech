@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="润吧！形策少女"
+             x:Class="RunTech.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+
+            <Label
+                Text="(｡･∀･)ﾉﾞ嗨"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Welcome to 润Tech &#10; 美好的一天从润形策开始"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to Run Tech" />
+
+            <Button
+                x:Name="CounterBtn"
+                Text="赛博木鱼" 
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnCounterClicked"
+                HorizontalOptions="Fill" />
+
+            <Button
+                x:Name="ServerBtn"
+                Text="我不润" 
+                Clicked="OnServerBtnClicked"
+                SemanticProperties.Hint="Click to become a server"
+                HorizontalOptions="Fill" />
+            
+            <Button
+                x:Name="ClientBtn"
+                Text="我要润" 
+                Clicked="OnClientBtnClicked"
+                SemanticProperties.Hint="Click to become a client"
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

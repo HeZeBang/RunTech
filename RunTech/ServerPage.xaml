@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:cv="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+             x:Class="RunTech.ServerPage"
+             x:Name="serverPage"
+             Title="Server Config Page">
+    <ScrollView HorizontalScrollBarVisibility="Always">
+        <VerticalStackLayout>
+        <Label 
+            Text="🙏谢谢爹"
+            VerticalOptions="Center" 
+            FontSize="Title"
+            HorizontalOptions="Center" />
+        <VerticalStackLayout Margin="30">
+            <Label>🛜你的IP地址</Label>
+            <Label x:Name="IPLbl"
+                   HorizontalOptions="Center"
+                   Margin="50,20,50,20"
+                   Text="127.0.0.1"/>
+            <Button x:Name="CopyButton" Text="📋 复制" Clicked="CopyIP"/>
+
+                <VerticalStackLayout Margin="30">
+                    <Grid HorizontalOptions="Center" VerticalOptions="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="250"/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <cv:BarcodeImage Grid.Row="0" x:Name="barcodeImage" Aspect="AspectFit"
+                                         BindingContext="{x:Reference serverPage}" Barcode="{Binding Barcode}"
+                     WidthRequest="200" HeightRequest="200" 
+                     BarcodeWidth="150" BarcodeHeight="150" BarcodeMargin="5"
+                     BarcodeBackground="White" BarcodeForeground="Black"
+                     BarcodeFormat="QR_CODE" />
+                        <Label Grid.Row="0" BindingContext="{x:Reference serverPage}" LineBreakMode="MiddleTruncation" Text="{Binding BarcodeText}" FontAttributes="Bold" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
+                    </Grid>
+                    <VerticalStackLayout Grid.Row="2" HorizontalOptions="Center" Margin="2" Spacing="2" MinimumWidthRequest="200">
+                        <Label Text="Adjust camera settings" FontSize="Subtitle"/>
+                        <Label Text="Pick a camera"/>
+                        <Picker x:Name="cameraPicker" VerticalOptions="Center" SelectedIndexChanged="cameraPicker_SelectedIndexChanged"/>
+                        <Label x:Name="zoomLabel" Text="Zoom" VerticalOptions="Center"/>
+                        <Stepper x:Name="zoomStepper" BindingContext="{x:Reference cameraView}" Minimum="{Binding MinZoomFactor}" Maximum="1.1" Increment="0.5" Value="1" ValueChanged="Stepper_ValueChanged" HorizontalOptions="Center"/>
+                        <Button Text="Focus" Clicked="Button_Clicked" />
+                        <Button x:Name="controlButton" Text="Start Camera" Clicked="CameraView_ToggleStatus"/>
+                        <cv:CameraView x:Name="cameraView" WidthRequest="300" HeightRequest="300" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+        </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
