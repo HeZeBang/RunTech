@@ -144,10 +144,17 @@ public partial class ServerPage : ContentPage
         var addressList = Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
         string? nativeIp = addressList.FirstOrDefault(address => address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?.ToString();
 #if ANDROID
+        try
+        {
             WifiManager wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Service.WifiService);
-                int ipaddress = wifiManager.ConnectionInfo.IpAddress;
-                IPAddress ipAddr = new IPAddress(ipaddress);
+            int ipaddress = wifiManager.ConnectionInfo.IpAddress;
+            IPAddress ipAddr = new IPAddress(ipaddress);
             nativeIp = ipAddr.ToString();
+        }
+        catch (Exception ex)
+        {
+            return $"{nativeIp}\n获取IP出现错误\n请尝试在系统设置中查询\n\n{ex.Message}";
+        }
 #endif
         if (nativeIp == null || nativeIp == "127.0.0.1")
         {
