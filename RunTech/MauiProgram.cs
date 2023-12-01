@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Camera.MAUI;
+using CommunityToolkit.Maui;
 
 namespace RunTech
 {
@@ -10,6 +11,7 @@ namespace RunTech
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .UseMauiCameraView() // Add the use of the plugging
                 .ConfigureFonts(fonts =>
                 {
