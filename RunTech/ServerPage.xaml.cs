@@ -144,7 +144,6 @@ public partial class ServerPage : ContentPage
         var addressList = Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
         string? nativeIp = addressList.FirstOrDefault(address => address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?.ToString();
 #if ANDROID
-        if (nativeIp == null)
             WifiManager wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Service.WifiService);
                 int ipaddress = wifiManager.ConnectionInfo.IpAddress;
                 IPAddress ipAddr = new IPAddress(ipaddress);
