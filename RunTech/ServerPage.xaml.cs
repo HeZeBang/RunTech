@@ -10,6 +10,10 @@ using EmbedIO.Routing;
 using System.Net.Http;
 using System.Text;
 using System;
+using CommunityToolkit.Maui.Behaviors;
+
+
+
 
 #if ANDROID
 using Android.App;
@@ -29,6 +33,10 @@ public partial class ServerPage : ContentPage
     public ServerPage()
     {
         InitializeComponent();
+        this.Behaviors.Add(new StatusBarBehavior
+        {
+            StatusBarColor = Color.FromHex("#d32f2f")
+        });
 
         OnPropertyChanged(nameof(BarcodeText));
         Barcode = "Please wait";
@@ -50,7 +58,12 @@ public partial class ServerPage : ContentPage
         cameraView.ControlBarcodeResultDuplicate = true;
         cameraView.BarCodeDetectionEnabled = true;
 
-        var server = new WebServer(8088);
+        //var server = new WebServer(8088);
+
+        var server = new WebServer(8088)//.WithMode(HttpListenerMode.EmbedIO))
+                .WithModule(new ActionModule("/code", HttpVerbs.Any, ctx => ctx.SendDataAsync(new { code = Barcode, time = DateTime.Now.ToString(), version = VersionTracking.CurrentVersion })))
+                .WithModule(new ActionModule("/", HttpVerbs.Any, ctx => ctx.SendStringAsync("<!DOCTYPE html><html><head><title>RunTech Web</title><script src='https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js'></script></head><body><h1 style='text-align: center;width: 300px;'>RunTech</h1><canvas width='100' style=\"background-color:#f2f2f2;border-radius:5px;padding: 40px;margin: 60px;\"id='qr'></canvas><div class='progress-bar'style=\"width:300px;height:30px;background-color:#f2f2f2;border-radius:5px;overflow:hidden;position:relative\"><div class='progress'style=\"width:100%;height:100%;background-color:#4caf50;position:absolute;left:0;top:0;transition:width 0.3s ease-in-out\"></div></div><script>function startProgressBar(){var progressBar=document.querySelector('.progress');var width=100;var interval=setInterval(decreaseProgress,500);function decreaseProgress(){width-=50;if(width<0){width=0;clearInterval(interval);fetch('/code').then(response=>response.json()).then(data=>{var qr=new QRious({element:document.getElementById('qr'),value:data.code})}).catch(error=>{Console.log('发生错误：'+error.message)});setTimeout(resetProgressBar,100)}progressBar.style.width=width+'%'}function resetProgressBar(){width=100;progressBar.style.width=width+'%';startProgressBar()}}startProgressBar();</script></body></html>"
+                , "text/html", Encoding.UTF8)));
         server.HandleHttpException(async (context, exception) =>
         {
             context.Response.StatusCode = exception.StatusCode;
@@ -58,31 +71,18 @@ public partial class ServerPage : ContentPage
             switch (exception.StatusCode)
             {
                 case 404:
-                    await context.SendStringAsync(Barcode, "text/html", Encoding.UTF8);
+                    await context.SendStringAsync("<h1>404 Not Found - From RunTech<h1/>", "text/html", Encoding.UTF8);
                     break;
                 default:
                     await HttpExceptionHandler.Default(context, exception);
                     break;
             }
         });
+
         server.Start();
         this.Disappearing += (sender, e) => {
             server.Dispose();
         };
-    }
-
-    [Route(HttpVerbs.Get, "/ping")]
-    public string TableTennis()
-    {
-        return "pong";
-    }
-
-    [Route(HttpVerbs.Get, "/qrcode")]
-    public string WebGetQrcode()
-    {
-        // You will probably want to do something more useful than this.
-
-        return Barcode;
     }
     private void Stepper_ValueChanged(object sender, ValueChangedEventArgs e)
     {
@@ -212,6 +212,7 @@ public partial class ServerPage : ContentPage
             else
                 zoomStepper.IsEnabled = true;
             cameraView.Camera = camera;
+            
             /*if (await cameraView.StopCameraAsync() == CameraResult.Success &&
                 await cameraView.StartCameraAsync() == CameraResult.Success)
             {

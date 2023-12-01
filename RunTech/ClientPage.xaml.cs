@@ -68,7 +68,7 @@ public partial class ClientPage : ContentPage
         bool flag = false;
         new System.Threading.Tasks.TaskFactory().StartNew(async () =>
         {
-            response = await GetData($"http://{IPBar.Text}:8088/");
+            response = await GetData($"http://{IPBar.Text}:8088/code");
             flag = true;
             OnPropertyChanged(nameof(response));
         }).Wait(1000);

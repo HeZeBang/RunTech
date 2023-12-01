@@ -1,4 +1,6 @@
-﻿namespace RunTech
+﻿using CommunityToolkit.Maui.Behaviors;
+
+namespace RunTech
 {
     public partial class MainPage : ContentPage
     {
@@ -7,6 +9,10 @@
         public MainPage()
         {
             InitializeComponent();
+            this.Behaviors.Add(new StatusBarBehavior
+            {
+                StatusBarColor = Color.FromHex("#00af6b")
+            });
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
