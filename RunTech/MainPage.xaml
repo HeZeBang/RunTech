@@ -11,6 +11,7 @@
             
             <Label
                 Text="(｡･∀･)ﾉﾞ嗨"
+                FontSize="50"
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" />
 

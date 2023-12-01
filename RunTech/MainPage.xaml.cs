@@ -9,10 +9,12 @@ namespace RunTech
         public MainPage()
         {
             InitializeComponent();
+#if ANDROID
             this.Behaviors.Add(new StatusBarBehavior
             {
                 StatusBarColor = Color.FromHex("#00af6b")
             });
+#endif
         }
 
         private void OnCounterClicked(object sender, EventArgs e)

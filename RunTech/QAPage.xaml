@@ -4,7 +4,7 @@
              x:Class="RunTech.QAPage"
              Title="Q＆A Page">
     <ScrollView>
-        <VerticalStackLayout>
+        <VerticalStackLayout Margin="15">
             <Label 
             Text="以下是一些问题的集合"
             FontSize="Title"
@@ -12,13 +12,17 @@
             HorizontalOptions="Center" />
             <Label Text="❓ 如何在设置里查找IP地址？" FontSize="Subtitle" Margin="10"/>
             <Label Text="Windows &#10; 请打开 设置 → 网络和 Internet → WLAN → [WLAN名称]属性（Windows 11） 或 直接单击 [WLAN名称] （Windows 10） → 下拉找到 IPv4地址" Margin="20,0,20,0" LineBreakMode="WordWrap"/>
-            <Label Text="Android / Harmony OS &#10; 以华为手机为例，打开设置 → 关于手机 → 状态信息 → IP地址" Margin="20,5,20,0" LineBreakMode="WordWrap"/>
-            <Label Text="Note: &#10; 在 ShanghaiTech ， 无线网络的IP地址通常为 10.20.*.*" Margin="20,5,20,0" LineBreakMode="WordWrap"/>
-            <Label Text="❓ 是否支持 iOS / iPadOS / Mac" FontSize="Subtitle" Margin="10"/>
-            <Label Text="理论上支持，但是V我一个Mac来编译吧/(ㄒoㄒ)/~~ &#10; （也可以自己下载源码编译）" Margin="20,0,20,0" LineBreakMode="WordWrap"/>
+            <Label Text="Android / Harmony OS &#10; 以华为手机为例，打开 设置 → 关于手机 → 状态信息 → IP地址" Margin="20,5,20,0" LineBreakMode="WordWrap"/>
+            <Label Text="❓ 为什么输入了对方的IP地址连不上？" FontSize="Subtitle" Margin="10"/>
+            <Label Text="在 ShanghaiTech ，无线网络的IP地址通常为 10.20.*.*，如果你得到的IP不长这样，那就需要参考上面的问题找到真实的IP。你的设备上可能有各种各样奇奇怪怪的网络适配器，尽管我们已经尝试了多种方法，但是仍然不能保证我们获得的一定是你的无线网络的IP（而且 Android 12 中限制了对网络信息的访问，我们也没办法咯）" Margin="20,5,20,0" LineBreakMode="WordWrap"/>
+            <Label Text="❓ 如何在不安装程序的情况下显示对方传送的二维码" FontSize="Subtitle" Margin="10"/>
+            <Label Text="只需在浏览器中打开 http://[对方IP]:8088/ 即可" Margin="20,0,20,0" LineBreakMode="WordWrap"/>
+            <Label Text="❓ 是否支持 iOS / iPadOS / Mac 客户端" FontSize="Subtitle" Margin="10"/>
+            <Label Text="本程序基于MAUI，理论上支持 Windows / Android / MacOS / iOS (iPad OS) / Linux (社区维护)，但是V我一个Mac来编译吧/(ㄒoㄒ)/~~ &#10; （也可以自己下载源码编译）" Margin="20,0,20,0" LineBreakMode="WordWrap"/>
             <Label Text="❓ 你到底是出于什么目的？😡" FontSize="Subtitle" Margin="10"/>
-            <Label Text="技术交流，技术交流（" Margin="20,0,20,0" LineBreakMode="WordWrap"/>
-            <Label Text="仅供下载学习技术交流，请于24小时内删除 &#10; 原作者不鼓励各位润形策 &#10; ZAMBAR 2023" HorizontalOptions="Center" Margin="30" HorizontalTextAlignment="Center"/>
+            <Label Text="技术交流，技术交流（逃" Margin="20,0,20,0" LineBreakMode="WordWrap"/>
+            <Label x:Name="versionLabel" HorizontalTextAlignment="Center" Margin="30,20,30,0"/>
+            <Label Text="仅供下载学习技术交流，请于24小时内删除 &#10; 原作者不鼓励各位润形策 &#10; ZAMBAR 2023" HorizontalOptions="Center" Margin="30,0,30,20" HorizontalTextAlignment="Center"/>
             <Image Source="run.jpg" MaximumHeightRequest="200" HorizontalOptions="Center"/>
         </VerticalStackLayout>
     </ScrollView>

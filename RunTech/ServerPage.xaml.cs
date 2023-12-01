@@ -33,10 +33,12 @@ public partial class ServerPage : ContentPage
     public ServerPage()
     {
         InitializeComponent();
+#if ANDROID
         this.Behaviors.Add(new StatusBarBehavior
         {
             StatusBarColor = Color.FromHex("#d32f2f")
         });
+#endif
 
         OnPropertyChanged(nameof(BarcodeText));
         Barcode = "Please wait";
@@ -82,6 +84,13 @@ public partial class ServerPage : ContentPage
         server.Start();
         this.Disappearing += (sender, e) => {
             server.Dispose();
+
+#if ANDROID
+            this.Behaviors.Add(new StatusBarBehavior
+            {
+                StatusBarColor = Color.FromHex("#00af6b")
+            });
+#endif
         };
     }
     private void Stepper_ValueChanged(object sender, ValueChangedEventArgs e)
@@ -91,6 +100,12 @@ public partial class ServerPage : ContentPage
     }
     private void CameraView_BarcodeDetected(object sender, Camera.MAUI.ZXingHelper.BarcodeEventArgs args)
     {
+#if ANDROID
+            this.Behaviors.Add(new StatusBarBehavior
+            {
+                StatusBarColor = Color.FromHex("#00af6b")
+            });
+#endif
         BarcodeText = $"Barcode at {DateTime.Now}: {args.Result[0].Text}";
         OnPropertyChanged(nameof(BarcodeText));
         Barcode = args.Result[0].Text;

@@ -36,13 +36,14 @@
                         <Label Grid.Row="0" BindingContext="{x:Reference serverPage}" LineBreakMode="MiddleTruncation" Text="{Binding BarcodeText}" FontAttributes="Bold" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
                     </Grid>
                     <VerticalStackLayout Grid.Row="2" HorizontalOptions="Center" Margin="2" Spacing="2" MinimumWidthRequest="200">
-                        <Label Text="相机设置" FontSize="Subtitle"/>
-                        <Label Text="选择相机"/>
+                        <Label Text="相机设置" FontSize="Large" Margin="0,10,0,10"/>
+                        <Label Text="选择相机" FontSize="Subtitle" Margin="0,10,0,10"/>
                         <Picker x:Name="cameraPicker" VerticalOptions="Center" SelectedIndexChanged="cameraPicker_SelectedIndexChanged"/>
-                        <Label x:Name="zoomLabel" Text="缩放" VerticalOptions="Center"/>
+                        <Label Text="切换后需要手动重启相机"/>
+                        <Button x:Name="controlButton" Text="Start Camera" Clicked="CameraView_ToggleStatus" Margin="0,10,0,10"/>
+                        <Label x:Name="zoomLabel" Text="缩放" FontSize="Subtitle" VerticalOptions="Center" Margin="0,10,0,10"/>
                         <Stepper x:Name="zoomStepper" BindingContext="{x:Reference cameraView}" Minimum="{Binding MinZoomFactor}" Maximum="1.1" Increment="0.5" Value="1" ValueChanged="Stepper_ValueChanged" HorizontalOptions="Center"/>
-                        <Button Text="点击对焦" Clicked="Button_Clicked" />
-                        <Button x:Name="controlButton" Text="Start Camera" Clicked="CameraView_ToggleStatus"/>
+                        <Button Text="点击对焦" Clicked="Button_Clicked"  Margin="0,10,0,10"/>
                         <cv:CameraView x:Name="cameraView" WidthRequest="300" HeightRequest="300" />
                         <Label Grid.Row="0" BindingContext="{x:Reference serverPage}" LineBreakMode="MiddleTruncation" Text="{Binding BarcodeText}" FontAttributes="Bold" HorizontalOptions="Fill" HorizontalTextAlignment="Center" />
                     </VerticalStackLayout>
