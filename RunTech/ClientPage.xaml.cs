@@ -70,8 +70,8 @@ public partial class ClientPage : ContentPage
             string result = await res.Content.ReadAsStringAsync();
             return result;
         }
-        catch {
-            return "???";
+        catch (Exception ex){
+            return ex.ToString();
         }
     }
 

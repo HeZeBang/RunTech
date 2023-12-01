@@ -147,7 +147,7 @@ public partial class ServerPage : ContentPage
             WifiManager wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Service.WifiService);
                 int ipaddress = wifiManager.ConnectionInfo.IpAddress;
                 IPAddress ipAddr = new IPAddress(ipaddress);
-                return ipAddr.ToString();
+            nativeIp = ipAddr.ToString();
 #endif
         if (nativeIp == null || nativeIp == "127.0.0.1")
         {
