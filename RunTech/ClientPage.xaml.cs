@@ -1,8 +1,5 @@
-using Swan;
-using Swan.Formatters;
 using System.Net;
 using System.Text;
-using System.Text.Json;
 using System.Threading;
 
 namespace RunTech;
@@ -66,27 +63,14 @@ public partial class ClientPage : ContentPage
         cancellationTokenSource?.Cancel();
     }
 
-    public class CodeData
-    {
-        public string code { get; set; }
-        public string time { get; set; }
-        public string version { get; set; }
-    }
-
     private void Refresh()
     {
         bool flag = false;
         new System.Threading.Tasks.TaskFactory().StartNew(async () =>
         {
-            try
-            {
-                response = await GetData($"http://{IPBar.Text}:8088/code");
-                flag = true;
-                var items = JsonSerializer.Deserialize<CodeData>(response);
-                response = items.code;
-                OnPropertyChanged(nameof(response));
-            }
-            catch { }
+            response = await GetData($"http://{IPBar.Text}:8088/code");
+            flag = true;
+            OnPropertyChanged(nameof(response));
         }).Wait(1000);
 
         if (!flag)
