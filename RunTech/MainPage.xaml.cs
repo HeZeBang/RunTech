@@ -30,6 +30,11 @@
         {
             await Navigation.PushAsync(new ClientPage());
         }
+
+        private async void QABtn_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new QAPage());
+        }
     }
 
 }

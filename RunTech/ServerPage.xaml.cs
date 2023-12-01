@@ -10,6 +10,7 @@ using EmbedIO.Routing;
 using System.Net.Http;
 using System.Text;
 using System;
+
 #if ANDROID
 using Android.App;
 using Android.Net.Wifi;
@@ -24,6 +25,7 @@ public partial class ServerPage : ContentPage
     public string Barcode { get; set; } = "";
 
     public bool playing { get; set; } = false;
+
     public ServerPage()
     {
         InitializeComponent();
@@ -143,18 +145,20 @@ public partial class ServerPage : ContentPage
 	{
         var addressList = Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
         string? nativeIp = addressList.FirstOrDefault(address => address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?.ToString();
+
 #if ANDROID
         try
         {
             WifiManager wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Service.WifiService);
-            int ipaddress = wifiManager.ConnectionInfo.IpAddress;
+            int ipaddress = wifiManager.ConnectionInfo.IpAddress; // Out of date in Android 12
             IPAddress ipAddr = new IPAddress(ipaddress);
             nativeIp = ipAddr.ToString();
         }
         catch (Exception ex)
         {
-            return $"{nativeIp}\n获取IP出现错误\n请尝试在系统设置中查询\n\n{ex.Message}";
+            return $"{nativeIp}\n获取IP出现错误\n在 Android 12 后的IP地址请求被废弃\n请尝试在系统设置中查询\n\n{ex.Message}";
         }
+        
 #endif
         if (nativeIp == null || nativeIp == "127.0.0.1")
         {
@@ -171,6 +175,8 @@ public partial class ServerPage : ContentPage
                     {
                         if (unicastAddress.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
                         {
+                            if (networkInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
+                                return unicastAddress.Address.ToString(); // 优先级高
                             dhcpAddress = unicastAddress.Address.ToString();
                         }
                     }
@@ -191,7 +197,7 @@ public partial class ServerPage : ContentPage
         cameraView.Focus();
     }
 
-    private void cameraPicker_SelectedIndexChanged(object sender, EventArgs e)
+    private async void cameraPicker_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (cameraPicker.SelectedItem != null && cameraPicker.SelectedItem is CameraInfo camera)
         {
@@ -203,6 +209,14 @@ public partial class ServerPage : ContentPage
             else
                 zoomStepper.IsEnabled = true;
             cameraView.Camera = camera;
+            /*if (await cameraView.StopCameraAsync() == CameraResult.Success &&
+                await cameraView.StartCameraAsync() == CameraResult.Success)
+            {
+                controlButton.Text = "Stop Camera";
+                playing = true;
+                return;
+            }*/
         }
     }
+
 }

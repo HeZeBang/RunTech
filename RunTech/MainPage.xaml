@@ -8,7 +8,7 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-
+            
             <Label
                 Text="(｡･∀･)ﾉﾞ嗨"
                 Style="{StaticResource Headline}"
@@ -29,7 +29,7 @@
 
             <Button
                 x:Name="ServerBtn"
-                Text="我不润" 
+                Text="我是爹" 
                 Clicked="OnServerBtnClicked"
                 SemanticProperties.Hint="Click to become a server"
                 HorizontalOptions="Fill" />
@@ -40,6 +40,12 @@
                 Clicked="OnClientBtnClicked"
                 SemanticProperties.Hint="Click to become a client"
                 HorizontalOptions="Fill" />
+            <Button
+                x:Name="QABtn"
+                Text="疑难解答" 
+                Clicked="QABtn_Clicked"
+                SemanticProperties.Hint="Click to navigate QA Page"
+                HorizontalOptions="Fill" />     
         </VerticalStackLayout>
     </ScrollView>
 

@@ -11,18 +11,18 @@
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
 
-        <Label FontSize="Subtitle" Text="输入IP地址，并点击搜索按钮开始实时更新"/>
-        <SearchBar x:Name="IPBar" Text="IP Address" SearchButtonPressed="GetButton_Clicked"/>
+            <Label FontSize="Subtitle" Text="输入IP地址，并点击搜索按钮开始实时更新" Margin="10,5,10,0"/>
+            <SearchBar x:Name="IPBar" Text="" SearchButtonPressed="GetButton_Clicked" Margin="10,5,10,5"/>
         <!--" Button x:Name="GetButton" Text="GET!" Clicked="GetButton_Clicked"/-->
             <ProgressBar x:Name="progstate" BindingContext="{x:Reference clientPage}" Progress="{Binding progress}"/>
             <cv:BarcodeImage Grid.Row="0" x:Name="barcodeImage" Aspect="AspectFit"
                                          BindingContext="{x:Reference clientPage}" Barcode="{Binding response}"
-                     WidthRequest="200" HeightRequest="200" 
-                     BarcodeWidth="150" BarcodeHeight="150" BarcodeMargin="5"
+                     MaximumWidthRequest="200"
+                     BarcodeWidth="180" BarcodeHeight="180" BarcodeMargin="5"
                      BarcodeBackground="White" BarcodeForeground="Black"
                      BarcodeFormat="QR_CODE" />
 
-            <Label Margin="10" BindingContext="{x:Reference clientPage}" Text="{Binding response}" HorizontalOptions="Center"/>
+            <Label Margin="10" BindingContext="{x:Reference clientPage}" Text="{Binding response}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

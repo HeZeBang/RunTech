@@ -12,7 +12,17 @@ public partial class ClientPage : ContentPage
 	{
 		InitializeComponent();
         OnPropertyChanged(nameof(response));
+        this.Disappearing += ClientPage_Disappearing;
 	}
+
+    private void ClientPage_Disappearing(object? sender, EventArgs e)
+    {
+        try
+        {
+            cancellationTokenSource?.Cancel();
+        }
+        catch { cancellationTokenSource?.Dispose(); }
+    }
 
     private CancellationTokenSource cancellationTokenSource;
     private Task refreshTask;
@@ -31,18 +41,16 @@ public partial class ClientPage : ContentPage
         cancellationTokenSource = new CancellationTokenSource();
         CancellationToken cancellationToken = cancellationTokenSource.Token;
 
-        // 启动异步线程进行刷新
         refreshTask = Task.Run(async () =>
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                // 调用func()刷新数据
 
                 while (progress > 0)
                 {
                     progress -= 0.01;
                     OnPropertyChanged(nameof(progress));
-                    await Task.Delay(10, cancellationToken);
+                    await Task.Delay(5, cancellationToken);
                 }
                 progress = 1;
                 Refresh();
@@ -52,13 +60,24 @@ public partial class ClientPage : ContentPage
 
     private void btnCancel_Click(object sender, EventArgs e)
     {
-        cancellationTokenSource?.Cancel(); // 取消刷新任务
+        cancellationTokenSource?.Cancel();
     }
 
-    private async void Refresh()
+    private void Refresh()
     {
-        response = await GetData($"http://{IPBar.Text}:8088/");
-        OnPropertyChanged(nameof(response));
+        bool flag = false;
+        new System.Threading.Tasks.TaskFactory().StartNew(async () =>
+        {
+            response = await GetData($"http://{IPBar.Text}:8088/");
+            flag = true;
+            OnPropertyChanged(nameof(response));
+        }).Wait(1000);
+
+        if (!flag)
+        {
+            response = "TIMEOUT";
+            flag = true;
+        }
     }
 
     public async Task<string> GetData(string url)
@@ -75,8 +94,4 @@ public partial class ClientPage : ContentPage
         }
     }
 
-    private void SearchBar_SearchButtonPressed(object sender, EventArgs e)
-    {
-
-    }
 }

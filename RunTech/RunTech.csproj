@@ -70,6 +70,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\daddy.jpg" />
+	  <None Remove="Resources\Images\run.jpg" />
 	  <None Remove="Resources\Images\run.svg" />
 	</ItemGroup>
 
@@ -89,6 +91,9 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="ClientPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="QAPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ServerPage.xaml">
