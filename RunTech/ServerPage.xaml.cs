@@ -9,6 +9,11 @@ using EmbedIO.Actions;
 using EmbedIO.Routing;
 using System.Net.Http;
 using System.Text;
+using System;
+#if ANDROID
+using Android.App;
+using Android.Net.Wifi;
+#endif
 
 namespace RunTech;
 
@@ -137,9 +142,40 @@ public partial class ServerPage : ContentPage
 	private string GetIP()
 	{
         var addressList = Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
-        string nativeIp = addressList.FirstOrDefault(address => address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?.ToString();
-		if (nativeIp == null || nativeIp == "127.0.0.1")
-            return "未能获取到有效IP地址\n请尝试在系统设置中查询";
+        string? nativeIp = addressList.FirstOrDefault(address => address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?.ToString();
+#if ANDROID
+        if (nativeIp == null)
+            WifiManager wifiManager = (WifiManager)Android.App.Application.Context.GetSystemService(Service.WifiService);
+                int ipaddress = wifiManager.ConnectionInfo.IpAddress;
+                IPAddress ipAddr = new IPAddress(ipaddress);
+                return ipAddr.ToString();
+#endif
+        if (nativeIp == null || nativeIp == "127.0.0.1")
+        {
+            var networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            string dhcpAddress = "127.0.0.1";
+            foreach (var networkInterface in networkInterfaces)
+            {
+                if (networkInterface.NetworkInterfaceType == NetworkInterfaceType.Ethernet ||
+                    networkInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211)
+                {
+                    var ipProperties = networkInterface.GetIPProperties();
+                    var unicastAddresses = ipProperties.UnicastAddresses;
+                    foreach (var unicastAddress in unicastAddresses)
+                    {
+                        if (unicastAddress.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                        {
+                            dhcpAddress = unicastAddress.Address.ToString();
+                        }
+                    }
+                }
+            }
+            if (dhcpAddress == "127.0.0.1")
+                return "未能获取到有效IP地址\n请尝试在系统设置中查询";
+            else
+                return dhcpAddress;
+        }
+            
 		
         return nativeIp;
     }
