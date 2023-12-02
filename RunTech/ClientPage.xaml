@@ -15,6 +15,7 @@
             <SearchBar x:Name="IPBar" Text="" SearchButtonPressed="GetButton_Clicked" Margin="10,5,10,5"/>
         <!--" Button x:Name="GetButton" Text="GET!" Clicked="GetButton_Clicked"/-->
             <ProgressBar x:Name="progstate" BindingContext="{x:Reference clientPage}" Progress="{Binding progress}"/>
+            <Button Margin="20" Text="点击以谢谢爹" BackgroundColor="#af4c4c" TextColor="WhiteSmoke" Clicked="Button_Clicked"/>
             <cv:BarcodeImage Grid.Row="0" x:Name="barcodeImage" Aspect="AspectFit"
                                          BindingContext="{x:Reference clientPage}" Barcode="{Binding response}"
                      MaximumWidthRequest="200"

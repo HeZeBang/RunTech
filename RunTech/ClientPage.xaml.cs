@@ -1,4 +1,4 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 
 namespace RunTech;
 
@@ -7,6 +7,7 @@ public partial class ClientPage : ContentPage
     public string response { get; set; } = "";
     public string detail { get; set; } = "Wating for response...";
     public double progress { get; set; } = 0.5;
+
     public ClientPage()
     {
         InitializeComponent();
@@ -65,6 +66,7 @@ public partial class ClientPage : ContentPage
         public string code { get; set; }
         public string time { get; set; }
         public string version { get; set; }
+        public int thanks {  get; set; }
     }
 
     private void Refresh()
@@ -77,9 +79,12 @@ public partial class ClientPage : ContentPage
                 response = await GetData($"http://{IPBar.Text}:8088/code");
                 flag = true;
                 var items = JsonSerializer.Deserialize<CodeData>(response);
-                response = items.code;
-                OnPropertyChanged(nameof(response));
-                detail = $"Response: {items.code}\nAt: {items.time}\nServer version: {items.version}";
+                if (items.code != "Pleasw wait")
+                {
+                    response = items.code;
+                    OnPropertyChanged(nameof(response));
+                }
+                detail = $"Response: {items.code}\nAt: {items.time}\nServer version: {items.version}\nReceived ❤: {items.thanks}";
                 OnPropertyChanged(nameof(detail));
             }
             catch { }
@@ -107,4 +112,8 @@ public partial class ClientPage : ContentPage
         }
     }
 
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        _ = await GetData($"http://{IPBar.Text}:8088/thku");
+    }
 }

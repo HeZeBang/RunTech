@@ -13,7 +13,16 @@
             FontSize="Title"
             HorizontalOptions="Center" />
             <VerticalStackLayout Margin="30">
-            <Label>🛜你的IP地址</Label>
+                <Label  LineBreakMode="MiddleTruncation" FontAttributes="Bold" HorizontalOptions="Fill" HorizontalTextAlignment="Center" FontSize="Subtitle">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span>您普渡众生，收到了</Span>
+                            <Span BindingContext="{x:Reference serverPage}" Text="{Binding Thanks}" />
+                            <Span>次感谢</Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <Label>🛜你的IP地址</Label>
             <Label x:Name="IPLbl"
                    HorizontalOptions="Center"
                    Margin="50,20,50,20"
@@ -48,6 +57,8 @@
                     </VerticalStackLayout>
                 </VerticalStackLayout>
         </VerticalStackLayout>
+                
+            
             <Image Source="daddy.jpg" HorizontalOptions="Center" Margin="20"/>
         </VerticalStackLayout>
     </ScrollView>
