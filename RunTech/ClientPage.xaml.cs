@@ -1,6 +1,4 @@
-using System.Net;
-using System.Text;
-using System.Threading;
+using System.Text.Json;
 
 namespace RunTech;
 
@@ -9,11 +7,11 @@ public partial class ClientPage : ContentPage
     public string response { get; set; } = "";
     public double progress { get; set; } = 0.5;
     public ClientPage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         OnPropertyChanged(nameof(response));
         this.Disappearing += ClientPage_Disappearing;
-	}
+    }
 
     private void ClientPage_Disappearing(object? sender, EventArgs e)
     {
@@ -63,14 +61,27 @@ public partial class ClientPage : ContentPage
         cancellationTokenSource?.Cancel();
     }
 
+    public class CodeData
+    {
+        public string code { get; set; }
+        public string time { get; set; }
+        public string version { get; set; }
+    }
+
     private void Refresh()
     {
         bool flag = false;
         new System.Threading.Tasks.TaskFactory().StartNew(async () =>
         {
-            response = await GetData($"http://{IPBar.Text}:8088/code");
-            flag = true;
-            OnPropertyChanged(nameof(response));
+            try
+            {
+                response = await GetData($"http://{IPBar.Text}:8088/code");
+                flag = true;
+                var items = JsonSerializer.Deserialize<CodeData>(response);
+                response = items.code;
+                OnPropertyChanged(nameof(response));
+            }
+            catch { }
         }).Wait(1000);
 
         if (!flag)
@@ -89,7 +100,8 @@ public partial class ClientPage : ContentPage
             string result = await res.Content.ReadAsStringAsync();
             return result;
         }
-        catch (Exception ex){
+        catch (Exception ex)
+        {
             return ex.ToString();
         }
     }

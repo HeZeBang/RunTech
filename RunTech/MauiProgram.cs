@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using Camera.MAUI;
+﻿using Camera.MAUI;
 using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 
 namespace RunTech
 {
@@ -20,7 +20,7 @@ namespace RunTech
                 });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

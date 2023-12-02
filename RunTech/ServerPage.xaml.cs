@@ -1,16 +1,11 @@
 ﻿using Camera.MAUI;
+using CommunityToolkit.Maui.Behaviors;
+using EmbedIO;
+using EmbedIO.Actions;
 using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using EmbedIO;
-using EmbedIO.WebApi;
-using EmbedIO.Actions;
-using EmbedIO.Routing;
-using System.Net.Http;
 using System.Text;
-using System;
-using CommunityToolkit.Maui.Behaviors;
 
 
 
@@ -80,7 +75,8 @@ public partial class ServerPage : ContentPage
         });
 
         server.Start();
-        this.Disappearing += (sender, e) => {
+        this.Disappearing += (sender, e) =>
+        {
             server.Dispose();
         };
     }
@@ -144,8 +140,8 @@ public partial class ServerPage : ContentPage
         Clipboard.SetTextAsync(GetIP());
     }
 
-	private string GetIP()
-	{
+    private string GetIP()
+    {
         var addressList = Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList;
         string? nativeIp = addressList.FirstOrDefault(address => address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?.ToString();
 
@@ -190,8 +186,8 @@ public partial class ServerPage : ContentPage
             else
                 return dhcpAddress;
         }
-            
-		
+
+
         return nativeIp;
     }
 
@@ -212,7 +208,7 @@ public partial class ServerPage : ContentPage
             else
                 zoomStepper.IsEnabled = true;
             cameraView.Camera = camera;
-            
+
             /*if (await cameraView.StopCameraAsync() == CameraResult.Success &&
                 await cameraView.StartCameraAsync() == CameraResult.Success)
             {
