@@ -22,7 +22,7 @@
                      BarcodeBackground="White" BarcodeForeground="Black"
                      BarcodeFormat="QR_CODE" />
 
-            <Label Margin="10" BindingContext="{x:Reference clientPage}" Text="{Binding response}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
+            <Label Margin="10" BindingContext="{x:Reference clientPage}" Text="{Binding detail}" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

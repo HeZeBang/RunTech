@@ -28,10 +28,13 @@ public partial class ServerPage : ContentPage
     public ServerPage()
     {
         InitializeComponent();
+
+#if ANDROID
         this.Behaviors.Add(new StatusBarBehavior
         {
             StatusBarColor = Color.FromHex("#d32f2f")
         });
+#endif
 
         OnPropertyChanged(nameof(BarcodeText));
         Barcode = "Please wait";
@@ -91,6 +94,14 @@ public partial class ServerPage : ContentPage
         OnPropertyChanged(nameof(BarcodeText));
         Barcode = args.Result[0].Text;
         OnPropertyChanged(nameof(Barcode));
+
+#if ANDROID
+        this.Behaviors.Add(new StatusBarBehavior
+        {
+            StatusBarColor = Color.FromHex("#00af6b")
+        });
+#endif
+
         Debug.WriteLine("BarcodeText=" + args.Result[0].Text);
     }
 

@@ -5,11 +5,13 @@ namespace RunTech;
 public partial class ClientPage : ContentPage
 {
     public string response { get; set; } = "";
+    public string detail { get; set; } = "Wating for response...";
     public double progress { get; set; } = 0.5;
     public ClientPage()
     {
         InitializeComponent();
         OnPropertyChanged(nameof(response));
+        OnPropertyChanged(nameof(detail));
         this.Disappearing += ClientPage_Disappearing;
     }
 
@@ -28,14 +30,11 @@ public partial class ClientPage : ContentPage
     {
         if (refreshTask != null && !refreshTask.IsCompleted)
         {
-            // 刷新任务已在运行中
             return;
         }
 
-        // 取消之前的任务（如果存在）
         cancellationTokenSource?.Cancel();
 
-        // 创建新的取消令牌
         cancellationTokenSource = new CancellationTokenSource();
         CancellationToken cancellationToken = cancellationTokenSource.Token;
 
@@ -80,6 +79,8 @@ public partial class ClientPage : ContentPage
                 var items = JsonSerializer.Deserialize<CodeData>(response);
                 response = items.code;
                 OnPropertyChanged(nameof(response));
+                detail = $"Response: {items.code}\nAt: {items.time}\nServer version: {items.version}";
+                OnPropertyChanged(nameof(detail));
             }
             catch { }
         }).Wait(1000);
